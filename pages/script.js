@@ -1,21 +1,21 @@
-let titles = document.querySelectorAll('.photo-grid__title');
+const titles = document.querySelectorAll('.photo-grid__title');
 
-let personProfile = document.querySelector('.profile__person');
-let personName = document.querySelector('.popup__name');
-let personActivity = document.querySelector('.popup__activity');
+const personProfile = document.querySelector('.profile__person');
+const personName = document.querySelector('.popup__name');
+const personActivity = document.querySelector('.popup__activity');
 
 // Загрузим имя и деятельность персоны в popup
 personName.value = personProfile.querySelector('.profile__name').textContent;
 personActivity.value = personProfile.querySelector('.profile__activity').textContent;
 
 // Добавим поведение закрытия по кнопке для popup
-let closePopup = document.querySelector('.popup__close');
+const closePopup = document.querySelector('.popup__close');
 closePopup.addEventListener('click', function () {
   document.querySelector('.popup').style = 'display: none;'
 });
 
 // Добавим поведение открытия popup по кнопке редактирования
-let profileEdit = document.querySelector('.profile__edit');
+const profileEdit = document.querySelector('.profile__edit');
 profileEdit.addEventListener('click', function () {
   document.querySelector('.popup').style = 'display: block;';
 });
@@ -27,7 +27,7 @@ for (let i = 0; i < titles.length; i++) {
   }
 }
 
-let formElement = document.querySelector('.popup__container');
+const formElement = document.querySelector('.popup__container');
 
 function formSubmitHandler(evt) {
   evt.preventDefault();
