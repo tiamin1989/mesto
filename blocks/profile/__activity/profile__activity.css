@@ -1,0 +1,22 @@
+.profile__activity {
+  margin: 3px 0 0;
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  color: #fff;
+}
+
+@media all and (max-width: 915px) {
+  .profile__activity {
+    text-align: center;
+  }
+}
+
+@media all and (max-width: 425px) {
+  .profile__activity {
+    margin: -5px 0 0;
+    font-size: 14px;
+    line-height: 17px;
+  }
+}

@@ -1,0 +1,11 @@
+@import url('./__divider/page__divider.css');
+
+.page {
+  overflow-anchor: none;
+  margin: 0 auto 0;
+  min-width: 300px;
+  max-width: 1200px;
+  background-color: #000;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

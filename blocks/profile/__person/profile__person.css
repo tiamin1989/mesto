@@ -1,0 +1,13 @@
+.profile__person {
+  max-width: 336px;
+  margin-left: 29px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+@media all and (max-width: 425px) {
+  .profile__person {
+    margin-left: 0;
+  }
+}

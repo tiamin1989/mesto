@@ -1,0 +1,8 @@
+.photo-grid__heart:hover {
+  transition: filter .2s linear;
+}
+
+.photo-grid__heart:hover {
+  filter: opacity(.6);
+  cursor: pointer;
+}

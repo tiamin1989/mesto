@@ -1,0 +1,29 @@
+.profile__add {
+  margin: 0 0 0 auto;
+  width: 150px;
+  height: 50px;
+  border: 2px solid #FFFFFF;
+  background-color: transparent;
+  background: url('../../../images/add.svg') no-repeat 50% 50%;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: filter .2s linear;
+}
+
+.profile__add:hover {
+  filter: opacity(.6);
+}
+
+@media all and (max-width: 915px) {
+  .profile__add {
+    margin: 33px auto 0;
+  }
+}
+
+@media all and (max-width: 425px) {
+  .profile__add {
+    margin: 33px 0 0;
+    width: 100%;
+    background-size: 16px 16px;
+  }
+}
