@@ -16,7 +16,8 @@ function formSubmitHandler(evt) {
 
 // Поведение при открытии редактирования персоны и закрытии popup
 function popupLoad() {
-  if (document.querySelector('.popup').style.display === 'none') {
+  if (document.querySelector('.popup').style.display === 'none' ||
+      !document.querySelector('.popup').hasAttribute('style')) {
     // Загрузим имя и деятельность персоны в popup
     personName.value = personProfile.querySelector('.profile__name').textContent;
     personActivity.value = personProfile.querySelector('.profile__activity').textContent;
@@ -32,10 +33,3 @@ profileEdit.addEventListener('click', popupLoad);
 
 // Поведение при нажатии Сохранить для popup
 popupForm.addEventListener('submit', formSubmitHandler);
-
-// Укоротим длинные заголовки
-for (let i = 0; i < titles.length; i++) {
-  if (titles[i].textContent.length > 12) {
-    titles[i].textContent = titles[i].textContent.substring(0, 11) + '...';
-  }
-}
