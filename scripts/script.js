@@ -1,4 +1,3 @@
-const titles = document.querySelectorAll('.photo-grid__title');
 const personProfile = document.querySelector('.profile__person');
 const personName = document.querySelector('.popup__name');
 const personActivity = document.querySelector('.popup__activity');
