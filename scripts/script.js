@@ -48,7 +48,7 @@ function popupShow() {
 }
 
 // Добавление карточек из массива
-function addCards(...cards) {console.log(cards)
+function addCards(...cards) {
   cards.forEach((object) => {
     const cardTemplate = document.querySelector('#photo').content;
     const card = cardTemplate.cloneNode(true);
