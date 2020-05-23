@@ -6,7 +6,8 @@
 @import url('./__save-button/popup__save-button.css');
 
 .popup {
-  display: none;
+  visibility: hidden;
+  opacity: 0;
   position: fixed;
   z-index: 1;
   top: 0;
@@ -14,4 +15,5 @@
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, .5);
+  transition: visibility .3s, opacity .3s linear;
 }

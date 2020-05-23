@@ -56,8 +56,7 @@ function addCards(...cards) {
     card.querySelector('.photo-grid__photo').setAttribute('alt', object.name);
     card.querySelector('.photo-grid__title').textContent = object.name;
     document.querySelector('.photo-grid').prepend(card);
-  }
-  );
+  });
 }
 
 // Поведение закрытия по кнопке для popup
