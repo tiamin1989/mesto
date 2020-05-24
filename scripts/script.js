@@ -46,6 +46,9 @@ function addCards(...cards) {
     card.querySelector('.photo-grid__photo').setAttribute('src', object.link);
     card.querySelector('.photo-grid__photo').setAttribute('alt', object.name);
     card.querySelector('.photo-grid__title').textContent = object.name;
+    card.querySelector('.photo-grid__heart').addEventListener('click', (evt) => {
+      evt.target.classList.toggle('photo-grid__heart_liked');
+    });
     document.querySelector('.photo-grid').prepend(card);
   });
 }
@@ -91,5 +94,7 @@ cardElement.addEventListener('submit', (evt) => {
 
 // Редактирование профиля по кнопке Сохранить
 profileElement.addEventListener('submit', saveProfile);
+
+
 
 addCards(...initialCards);

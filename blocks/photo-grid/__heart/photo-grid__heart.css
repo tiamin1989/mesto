@@ -1,4 +1,8 @@
-.photo-grid__heart:hover {
+.photo-grid__heart {
+  width: 21px;
+  height: 19px;
+  border: 0;
+  background: url('../../../images/heart.svg') no-repeat;
   transition: filter .2s linear;
 }
 
