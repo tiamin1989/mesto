@@ -3,6 +3,7 @@
 @import url('./__item-info/photo-grid__item-info.css');
 @import url('./__title/photo-grid__title.css');
 @import url('./__heart/photo-grid__heart.css');
+@import url('./__delete/photo-grid__delete.css');
 
 .photo-grid {
   margin: 52px auto 0;

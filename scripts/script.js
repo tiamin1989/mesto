@@ -38,11 +38,14 @@ function saveProfile(evt) {
   profileElement.classList.remove('popup_opened');
 }
 
-// Добавление карточек из массива
+// Добавление карточек из массива и навешивание обработчиков
 function addCards(...cards) {
   cards.forEach((object) => {
     const cardTemplate = document.querySelector('#photo').content;
     const card = cardTemplate.cloneNode(true);
+    card.querySelector('.photo-grid__delete').addEventListener('click', (evt) => {
+      evt.target.closest('.photo-grid__item').remove();
+    });
     card.querySelector('.photo-grid__photo').setAttribute('src', object.link);
     card.querySelector('.photo-grid__photo').setAttribute('alt', object.name);
     card.querySelector('.photo-grid__title').textContent = object.name;
@@ -94,7 +97,5 @@ cardElement.addEventListener('submit', (evt) => {
 
 // Редактирование профиля по кнопке Сохранить
 profileElement.addEventListener('submit', saveProfile);
-
-
 
 addCards(...initialCards);
