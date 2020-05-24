@@ -1,10 +1,8 @@
 const personProfile = document.querySelector('.profile__person');
-const popupElement = document.querySelector('.popup');
-const personName = document.querySelector('.popup__name');
-const personActivity = document.querySelector('.popup__activity');
-const closePopup = document.querySelector('.popup__close');
+const cardElement = document.querySelector('#card');
+const profileElement = document.querySelector('#profile');
 const profileEdit = document.querySelector('.profile__edit');
-const popupForm = document.querySelector('.popup__container');
+const profileAdd = document.querySelector('.profile__add');
 const initialCards = [
   {
     name: 'Архыз',
@@ -33,18 +31,11 @@ const initialCards = [
 ];
 
 // Сохранение данных по кнопке Сохранить
-function formSubmitHandler(evt) {
+function saveProfile(evt) {
   evt.preventDefault();
-  personProfile.querySelector('.profile__name').textContent = personName.value;
-  personProfile.querySelector('.profile__activity').textContent = personActivity.value;
-  popupElement.classList.remove('popup_opened');
-}
-
-// Поведение при открытии редактирования персоны и закрытии popup
-function popupShow() {
-  personName.value = personProfile.querySelector('.profile__name').textContent;
-  personActivity.value = personProfile.querySelector('.profile__activity').textContent;
-  popupElement.classList.add('popup_opened');
+  personProfile.querySelector('.profile__name').textContent = profileElement.querySelector('.popup__name').value;
+  personProfile.querySelector('.profile__activity').textContent = profileElement.querySelector('.popup__activity').value;
+  profileElement.classList.remove('popup_opened');
 }
 
 // Добавление карточек из массива
@@ -59,15 +50,44 @@ function addCards(...cards) {
   });
 }
 
-// Поведение закрытия по кнопке для popup
-closePopup.addEventListener('click', () => {
-  popupElement.classList.remove('popup_opened');
-});
+// Поведение при открытии редактирования персоны
+function editProfilePopup() {
+  profileElement.querySelector('.popup__name').value = personProfile.querySelector('.profile__name').textContent;
+  profileElement.querySelector('.popup__activity').value = personProfile.querySelector('.profile__activity').textContent;
+  profileElement.classList.add('popup_opened');
+}
 
 // Поведение открытия popup по кнопке редактирования
-profileEdit.addEventListener('click', popupShow);
+profileEdit.addEventListener('click', editProfilePopup);
 
-// Поведение при нажатии Сохранить для popup
-popupForm.addEventListener('submit', formSubmitHandler);
+// Поведение открытия popup по кнопке добавления
+profileAdd.addEventListener('click', () => {
+  cardElement.classList.add('popup_opened');
+});
+
+// Закрытие по по крестику
+cardElement.querySelector('.popup__close').addEventListener('click', (evt) => {
+  evt.preventDefault();
+  cardElement.classList.remove('popup_opened');
+});
+
+// Закрытие по по крестику
+profileElement.querySelector('.popup__close').addEventListener('click', (evt) => {
+  evt.preventDefault();
+  profileElement.classList.remove('popup_opened');
+});
+
+// Создание новой карточки по кнопке Создать
+cardElement.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  addCards({
+    name: cardElement.querySelector('.popup__name').value,
+    link: cardElement.querySelector('.popup__activity').value
+  });
+  cardElement.classList.remove('popup_opened');
+});
+
+// Редактирование профиля по кнопке Сохранить
+profileElement.addEventListener('submit', saveProfile);
 
 addCards(...initialCards);

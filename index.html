@@ -32,7 +32,7 @@
     </section>
 
     <section class="photo-grid">
-<!--       <article class="photo-grid__item">
+      <!--       <article class="photo-grid__item">
         <img src="./images/kirill-pershin-1088404-unsplash.jpg" alt="" class="photo-grid__photo">
         <div class="photo-grid__item-info">
           <h2 class="photo-grid__title">Карачаевск</h2>
@@ -82,13 +82,23 @@
     <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
   </footer>
 
-  <div class="popup">
+  <div class="popup" id="profile">
     <form class="popup__container">
       <button class="popup__close"></button>
       <h2 class="popup__title">Редактировать профиль</h2>
       <input type="text" class="popup__name">
       <input type="text" class="popup__activity">
       <input type="submit" value="Сохранить" class="popup__save-button">
+    </form>
+  </div>
+
+  <div class="popup" id="card">
+    <form class="popup__container">
+      <button class="popup__close"></button>
+      <h2 class="popup__title">Новое место</h2>
+      <input type="text" class="popup__name" placeholder="Название">
+      <input type="text" class="popup__activity" placeholder="Ссылка на картинку">
+      <input type="submit" value="Создать" class="popup__save-button">
     </form>
   </div>
 
@@ -102,7 +112,7 @@
     </article>
   </template>
 
-<script src="./scripts/script.js"></script>
+  <script src="./scripts/script.js"></script>
 </body>
 
 </html>
