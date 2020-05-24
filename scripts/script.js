@@ -57,13 +57,15 @@ function editProfilePopup() {
   profileElement.classList.add('popup_opened');
 }
 
-// Поведение открытия popup по кнопке редактирования
-profileEdit.addEventListener('click', editProfilePopup);
-
 // Поведение открытия popup по кнопке добавления
-profileAdd.addEventListener('click', () => {
+function createCardPopup() {
+  cardElement.querySelector('.popup__name').value = '';
+  cardElement.querySelector('.popup__activity').value = '';
   cardElement.classList.add('popup_opened');
-});
+}
+
+profileEdit.addEventListener('click', editProfilePopup);
+profileAdd.addEventListener('click', createCardPopup);
 
 // Закрытие по по крестику
 cardElement.querySelector('.popup__close').addEventListener('click', (evt) => {
