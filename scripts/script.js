@@ -3,6 +3,7 @@ const cardElement = document.querySelector('#card');
 const profileElement = document.querySelector('#profile');
 const profileEdit = document.querySelector('.profile__edit');
 const profileAdd = document.querySelector('.profile__add');
+const photoPopup = document.querySelector('.photo-popup');
 const initialCards = [
   {
     name: 'Архыз',
@@ -43,15 +44,17 @@ function addCards(...cards) {
   cards.forEach((object) => {
     const cardTemplate = document.querySelector('#photo').content;
     const card = cardTemplate.cloneNode(true);
-    card.querySelector('.photo-grid__delete').addEventListener('click', (evt) => {
-      evt.target.closest('.photo-grid__item').remove();
-    });
+    card.querySelector('.photo-grid__delete').addEventListener('click', evt => evt.target.closest('.photo-grid__item').remove());
     card.querySelector('.photo-grid__photo').setAttribute('src', object.link);
     card.querySelector('.photo-grid__photo').setAttribute('alt', object.name);
-    card.querySelector('.photo-grid__title').textContent = object.name;
-    card.querySelector('.photo-grid__heart').addEventListener('click', (evt) => {
-      evt.target.classList.toggle('photo-grid__heart_liked');
+    card.querySelector('.photo-grid__photo').addEventListener('click', evt => {
+      photoPopup.querySelector('.photo-popup__image').setAttribute('src', evt.target.getAttribute('src'));
+      photoPopup.querySelector('.photo-popup__image').setAttribute('alt', evt.target.getAttribute('alt'));
+      photoPopup.querySelector('.photo-popup__caption').textContent = evt.target.getAttribute('alt');
+      photoPopup.classList.add('photo-popup_opened');
     });
+    card.querySelector('.photo-grid__title').textContent = object.name;
+    card.querySelector('.photo-grid__heart').addEventListener('click', evt => evt.target.classList.toggle('photo-grid__heart_liked'));
     document.querySelector('.photo-grid').prepend(card);
   });
 }
@@ -64,29 +67,32 @@ function editProfilePopup() {
 }
 
 // Поведение открытия popup по кнопке добавления
-function createCardPopup() {
+function newCardPopup() {
   cardElement.querySelector('.popup__name').value = '';
   cardElement.querySelector('.popup__activity').value = '';
   cardElement.classList.add('popup_opened');
 }
 
 profileEdit.addEventListener('click', editProfilePopup);
-profileAdd.addEventListener('click', createCardPopup);
+profileAdd.addEventListener('click', newCardPopup);
 
-// Закрытие по по крестику
-cardElement.querySelector('.popup__close').addEventListener('click', (evt) => {
+// Закрытие по по крестику добавления карточки
+cardElement.querySelector('.popup__close').addEventListener('click', evt => {
   evt.preventDefault();
   cardElement.classList.remove('popup_opened');
 });
 
-// Закрытие по по крестику
-profileElement.querySelector('.popup__close').addEventListener('click', (evt) => {
+// Закрытие по по крестику редактировани профиля
+profileElement.querySelector('.popup__close').addEventListener('click', evt => {
   evt.preventDefault();
   profileElement.classList.remove('popup_opened');
 });
 
+// Закрытие по по крестику фотографии
+photoPopup.querySelector('.photo-popup__close').addEventListener('click', evt => photoPopup.classList.remove('photo-popup_opened'));
+
 // Создание новой карточки по кнопке Создать
-cardElement.addEventListener('submit', (evt) => {
+cardElement.addEventListener('submit', evt => {
   evt.preventDefault();
   addCards({
     name: cardElement.querySelector('.popup__name').value,
