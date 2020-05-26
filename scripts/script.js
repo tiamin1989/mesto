@@ -1,3 +1,7 @@
+const profileEdit = document.querySelector('.profile__edit');
+const profileAdd = document.querySelector('.profile__add');
+const photoGrid = document.querySelector('.photo-grid');
+
 const personProfile = { 
   name: document.querySelector('.profile__name'),
   activity: document.querySelector('.profile__activity')
@@ -16,9 +20,6 @@ const profileElement = {
   activity: document.querySelector('#profile .popup__activity'),
   close: document.querySelector('#profile .popup__close')
 }
-
-const profileEdit = document.querySelector('.profile__edit');
-const profileAdd = document.querySelector('.profile__add');
 
 const photoPopup = {
   block: document.querySelector('.photo-popup'),
@@ -78,7 +79,7 @@ function addCards(...cards) {
     });
     card.querySelector('.photo-grid__title').textContent = object.name;
     card.querySelector('.photo-grid__heart').addEventListener('click', evt => evt.target.classList.toggle('photo-grid__heart_liked'));
-    document.querySelector('.photo-grid').prepend(card);
+    photoGrid.prepend(card);
   });
 }
 
