@@ -6,7 +6,13 @@
   font-size: 42px;
   line-height: 56px;
   color: #fff;
-  text-align: center;
+  vertical-align: inherit;
+}
+
+@-moz-document url-prefix() {
+  .profile__name {
+    vertical-align: middle;
+  }
 }
 
 @media all and (max-width: 425px) {
