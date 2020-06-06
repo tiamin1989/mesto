@@ -41,22 +41,26 @@
   </footer>
 
   <div class="popup" id="profile">
-    <form class="popup__container">
+    <form class="popup__container" name="profile" novalidate>
       <button class="popup__close"></button>
       <h2 class="popup__title">Редактировать профиль</h2>
-      <input type="text" class="popup__name">
-      <input type="text" class="popup__activity">
+      <input id="profile-name" type="text" class="popup__input" minlength="2" maxlength="40" pattern="[А-Яа-я\w -]+" required>
+      <span id="profile-name-error" class="popup__error"></span>
+      <input id="profile-activity" type="text" class="popup__input" minlength="2" maxlength="200" pattern="[А-Яа-я\w -]+" required>
+      <span id="profile-activity-error" class="popup__error"></span>
       <input type="submit" value="Сохранить" class="popup__save-button">
     </form>
   </div>
 
   <div class="popup" id="card">
-    <form class="popup__container">
-      <input class="popup__close"></input>
+    <form class="popup__container" name="card" novalidate>
+      <button class="popup__close"></button>
       <h2 class="popup__title">Новое место</h2>
-      <input type="text" class="popup__name" placeholder="Название">
-      <input type="text" class="popup__activity" placeholder="Ссылка на картинку">
-      <input type="submit" value="Создать" class="popup__save-button">
+      <input id="card-name" type="text" class="popup__input" placeholder="Название" minlength="2" maxlength="40" pattern="[А-Яа-я\w -]+" required>
+      <span id="card-name-error" class="popup__error"></span>
+      <input id="card-link" type="url" class="popup__input" placeholder="Ссылка на картинку" required>
+      <span id="card-link-error" class="popup__error"></span>
+      <input type="submit" value="Создать" class="popup__save-button popup__save-button_disabled" disabled>
     </form>
   </div>
 
@@ -82,6 +86,7 @@
   </template>
 
   <script src="./scripts/script.js"></script>
+  <script src="./scripts/validate.js"></script>
 </body>
 
 </html>

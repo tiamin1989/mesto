@@ -2,22 +2,22 @@ const profileEdit = document.querySelector('.profile__edit');
 const profileAdd = document.querySelector('.profile__add');
 const photoGrid = document.querySelector('.photo-grid');
 
-const personProfile = { 
+const personProfile = {
   name: document.querySelector('.profile__name'),
   activity: document.querySelector('.profile__activity')
 }
 
 const cardElement = {
   block: document.querySelector('#card'),
-  name: document.querySelector('#card .popup__name'),
-  activity: document.querySelector('#card .popup__activity'),
+  name: document.querySelectorAll('#profile .popup__input')[0],
+  activity: document.querySelectorAll('#profile .popup__input')[1],
   close: document.querySelector('#card .popup__close')
 }
 
 const profileElement = {
   block: document.querySelector('#profile'),
-  name: document.querySelector('#profile .popup__name'),
-  activity: document.querySelector('#profile .popup__activity'),
+  name: document.querySelectorAll('#profile .popup__input')[0],
+  activity: document.querySelectorAll('#profile .popup__input')[1],
   close: document.querySelector('#profile .popup__close')
 }
 
@@ -90,7 +90,7 @@ function editProfilePopup() {
   profileElement.block.classList.add('popup_opened');
 }
 
-// Поведение открытия popup по кнопке добавления (******button type="reset" не работает******)
+// Поведение открытия popup по кнопке добавления
 function newCardPopup() {
   cardElement.name.value = '';
   cardElement.activity.value = '';

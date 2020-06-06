@@ -1,9 +1,9 @@
 @import url('./__container/popup__container.css');
 @import url('./__close/popup__close.css');
 @import url('./__title/popup__title.css');
-@import url('./__name/popup__name.css');
-@import url('./__activity/popup__activity.css');
+@import url('./__input/popup__input.css');
 @import url('./__save-button/popup__save-button.css');
+@import url('./__error/popup__error.css');
 
 .popup {
   visibility: hidden;
