@@ -8,6 +8,7 @@ const personProfile = {
 }
 
 const cardElement = {
+  form: document.forms.card,
   block: document.querySelector('#card'),
   name: document.querySelectorAll('#profile .popup__input')[0],
   activity: document.querySelectorAll('#profile .popup__input')[1],
@@ -15,6 +16,7 @@ const cardElement = {
 }
 
 const profileElement = {
+  form: document.forms.profile,
   block: document.querySelector('#profile'),
   name: document.querySelectorAll('#profile .popup__input')[0],
   activity: document.querySelectorAll('#profile .popup__input')[1],
@@ -79,7 +81,7 @@ function saveProfile(evt) {
   evt.preventDefault();
   personProfile.name.textContent = profileElement.name.value;
   personProfile.activity.textContent = profileElement.activity.value;
-  profileElement.block.classList.remove('popup_opened');
+  closePopup(profileElement.block)
 }
 
 // Добавление карточек из массива и навешивание обработчиков
@@ -102,11 +104,35 @@ function addCards(...cards) {
   });
 }
 
+// Слушатель keydown дл форм
+function keyHandler(evt, element) {
+  if (evt.key === 'Enter') {
+    evt.preventDefault();
+    if (element.form.checkValidity()) {
+      switch (element.form.name) {
+        case 'card':
+          addCards({
+            name: element.name.value,
+            link: element.activity.value
+          });
+          closePopup(element.block);
+          element.form.removeEventListener('keydown', keyHandler);
+          break;
+        case 'profile': saveProfile(evt); element.form.removeEventListener('keydown', keyHandler);
+      }
+    }
+  }
+  if (evt.key === 'Escape') closePopup(element.block);
+}
+
 // Поведение при открытии редактирования персоны
 function editProfilePopup() {
   profileElement.name.value = personProfile.name.textContent;
   profileElement.activity.value = personProfile.activity.textContent;
   profileElement.block.classList.add('popup_opened');
+  profileElement.form.addEventListener('keydown', evt => {
+    keyHandler(evt, profileElement);
+  });
 }
 
 // Поведение открытия popup по кнопке добавления
@@ -114,6 +140,9 @@ function newCardPopup() {
   cardElement.name.value = '';
   cardElement.activity.value = '';
   cardElement.block.classList.add('popup_opened');
+  cardElement.form.addEventListener('keydown', evt => {
+    keyHandler(evt, cardElement);
+  });
 }
 
 profileEdit.addEventListener('click', editProfilePopup);
