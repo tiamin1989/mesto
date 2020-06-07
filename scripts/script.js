@@ -55,6 +55,25 @@ const initialCards = [
   }
 ];
 
+const popups = Array.from(document.querySelectorAll('.popup'));
+
+// Закрытие popup
+function closePopup(popup) {
+  popup.classList.remove('popup_opened');
+  popup.querySelectorAll('.popup__input').forEach(input => {
+    input.value = '';
+    input.classList.remove('popup__input_type_error');
+    const errorElement = popup.querySelector(`#${input.id}-error`);
+    errorElement.value = '';
+    errorElement.classList.remove('popup__error_visible');
+  });
+}
+
+// Закрытие фото
+function closePhoto(evt) {
+  evt.target.classList.remove('photo-popup_opened');
+}
+
 // Сохранение данных по кнопке Сохранить
 function saveProfile(evt) {
   evt.preventDefault();
@@ -100,20 +119,26 @@ function newCardPopup() {
 profileEdit.addEventListener('click', editProfilePopup);
 profileAdd.addEventListener('click', newCardPopup);
 
-// Закрытие по по крестику добавления карточки
+// Закрытие по крестику добавления карточки
 cardElement.close.addEventListener('click', evt => {
   evt.preventDefault();
-  cardElement.block.classList.remove('popup_opened');
+  closePopup(cardElement.block);
 });
 
-// Закрытие по по крестику редактировани профиля
+// Закрытие по крестику редактировани профиля
 profileElement.close.addEventListener('click', evt => {
   evt.preventDefault();
-  profileElement.block.classList.remove('popup_opened');
+  closePopup(profileElement.block);
 });
 
-// Закрытие по по крестику фотографии
+// Закрытие popup по внешней области
+popups.forEach(popup => popup.addEventListener('click', evt => {
+  if (evt.target.classList.contains('popup')) closePopup(popup);
+}));
+
+// Закрытие фотографии
 photoPopup.close.addEventListener('click', evt => photoPopup.block.classList.remove('photo-popup_opened'));
+photoPopup.block.addEventListener('click', closePhoto);
 
 // Создание новой карточки по кнопке Создать
 cardElement.block.addEventListener('submit', evt => {

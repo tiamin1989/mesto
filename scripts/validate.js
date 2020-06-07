@@ -1,18 +1,4 @@
-const popups = Array.from(document.querySelectorAll('.popup'));
-
-function closePopup(evt) {
-  if (evt.target.classList.contains('popup')) {
-    evt.target.classList.remove('popup_opened');
-    evt.target.querySelectorAll('.popup__input').forEach(input => {
-      input.value = '';
-      input.classList.remove('popup__input_type_error');
-      const errorElement = evt.target.querySelector(`#${input.id}-error`);
-      errorElement.value = '';
-      errorElement.classList.remove('popup__error_visible');
-    });
-  }
-}
-
+// Проверка инпутов
 function inputCheck(event, inputErrorClass, errorClass) {
   const input = event.target;
   const errorElement = document.querySelector(`#${input.id}-error`);
@@ -28,6 +14,7 @@ function inputCheck(event, inputErrorClass, errorClass) {
   }
 }
 
+// Проверка формы в целом
 function formCheck(form, saveButton, inactiveButtonClass) {
   const isValid = !form.checkValidity();
 
@@ -35,6 +22,7 @@ function formCheck(form, saveButton, inactiveButtonClass) {
   saveButton.classList.toggle(inactiveButtonClass, isValid);
 }
 
+// Валидации форм
 function enableValidation(options) {
   const forms = Array.from(document.querySelectorAll(options.formSelector));
   forms.forEach(form => {
@@ -47,8 +35,6 @@ function enableValidation(options) {
     });
   });
 }
-
-popups.forEach(popup => popup.addEventListener('click', evt => closePopup(evt)));
 
 enableValidation({
   formSelector: '.popup__container',
