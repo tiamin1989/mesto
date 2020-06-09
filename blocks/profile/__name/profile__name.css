@@ -1,4 +1,8 @@
 .profile__name {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 30vw;
   display: inline-block;
   margin: 0;
   font-family: 'Inter', Arial, sans-serif;
@@ -15,9 +19,16 @@
   }
 }
 
+@media all and (max-width: 915px) {
+  .profile__name {
+    max-width: 80vw;
+  }
+}
+
 @media all and (max-width: 425px) {
   .profile__name {
     margin: 15px 0 0;
     font-size: 27px;
+    max-width: 250px;
   }
 }

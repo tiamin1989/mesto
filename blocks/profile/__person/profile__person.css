@@ -8,5 +8,6 @@
 @media all and (max-width: 425px) {
   .profile__person {
     margin-left: 0;
+    align-items: center;
   }
 }
