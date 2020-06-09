@@ -10,8 +10,8 @@ const personProfile = {
 const cardElement = {
   form: document.forms.card,
   block: document.querySelector('#card'),
-  name: document.querySelectorAll('#profile .popup__input')[0],
-  activity: document.querySelectorAll('#profile .popup__input')[1],
+  name: document.querySelectorAll('#card .popup__input')[0],
+  activity: document.querySelectorAll('#card .popup__input')[1],
   close: document.querySelector('#card .popup__close')
 }
 
@@ -30,37 +30,10 @@ const photoPopup = {
   close: document.querySelector('.photo-popup__close')
 }
 
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
-
 const popups = Array.from(document.querySelectorAll('.popup'));
 
 // Закрытие popup
-function closePopup(popup) {
+function cleanPopup(popup) {
   popup.classList.remove('popup_opened');
   popup.querySelectorAll('.popup__input').forEach(input => {
     input.value = '';
@@ -69,6 +42,7 @@ function closePopup(popup) {
     errorElement.value = '';
     errorElement.classList.remove('popup__error_visible');
   });
+  document.removeEventListener('keydown', keyHandler);
 }
 
 // Закрытие фото
@@ -79,9 +53,11 @@ function closePhoto(evt) {
 // Сохранение данных по кнопке Сохранить
 function saveProfile(evt) {
   evt.preventDefault();
-  personProfile.name.textContent = profileElement.name.value;
-  personProfile.activity.textContent = profileElement.activity.value;
-  closePopup(profileElement.block)
+  if (profileElement.form.checkValidity()) {
+    personProfile.name.textContent = profileElement.name.value;
+    personProfile.activity.textContent = profileElement.activity.value;
+    cleanPopup(profileElement.block);
+  }
 }
 
 // Добавление карточек из массива и навешивание обработчиков
@@ -106,23 +82,10 @@ function addCards(...cards) {
 
 // Слушатель keydown дл форм
 function keyHandler(evt, element) {
-  if (evt.key === 'Enter') {
-    evt.preventDefault();
-    if (element.form.checkValidity()) {
-      switch (element.form.name) {
-        case 'card':
-          addCards({
-            name: element.name.value,
-            link: element.activity.value
-          });
-          closePopup(element.block);
-          element.form.removeEventListener('keydown', keyHandler);
-          break;
-        case 'profile': saveProfile(evt); element.form.removeEventListener('keydown', keyHandler);
-      }
-    }
+  if (evt.key === 'Escape') {
+    const popup = document.querySelector('.popup_opened');
+    if (popup) cleanPopup(popup);
   }
-  if (evt.key === 'Escape') closePopup(element.block);
 }
 
 // Поведение при открытии редактирования персоны
@@ -130,9 +93,7 @@ function editProfilePopup() {
   profileElement.name.value = personProfile.name.textContent;
   profileElement.activity.value = personProfile.activity.textContent;
   profileElement.block.classList.add('popup_opened');
-  profileElement.form.addEventListener('keydown', evt => {
-    keyHandler(evt, profileElement);
-  });
+  document.addEventListener('keydown', keyHandler);
 }
 
 // Поведение открытия popup по кнопке добавления
@@ -140,9 +101,7 @@ function newCardPopup() {
   cardElement.name.value = '';
   cardElement.activity.value = '';
   cardElement.block.classList.add('popup_opened');
-  cardElement.form.addEventListener('keydown', evt => {
-    keyHandler(evt, cardElement);
-  });
+  document.addEventListener('keydown', keyHandler);
 }
 
 profileEdit.addEventListener('click', editProfilePopup);
@@ -151,18 +110,18 @@ profileAdd.addEventListener('click', newCardPopup);
 // Закрытие по крестику добавления карточки
 cardElement.close.addEventListener('click', evt => {
   evt.preventDefault();
-  closePopup(cardElement.block);
+  if (evt.target.classList.contains('popup__close')) cleanPopup(cardElement.block);
 });
 
 // Закрытие по крестику редактировани профиля
 profileElement.close.addEventListener('click', evt => {
   evt.preventDefault();
-  closePopup(profileElement.block);
+  if (evt.target.classList.contains('popup__close')) cleanPopup(profileElement.block);
 });
 
 // Закрытие popup по внешней области
 popups.forEach(popup => popup.addEventListener('click', evt => {
-  if (evt.target.classList.contains('popup')) closePopup(popup);
+  if (evt.target.classList.contains('popup')) cleanPopup(popup);
 }));
 
 // Закрытие фотографии
@@ -170,16 +129,18 @@ photoPopup.close.addEventListener('click', evt => photoPopup.block.classList.rem
 photoPopup.block.addEventListener('click', closePhoto);
 
 // Создание новой карточки по кнопке Создать
-cardElement.block.addEventListener('submit', evt => {
+cardElement.form.addEventListener('submit', evt => {
   evt.preventDefault();
-  addCards({
-    name: cardElement.name.value,
-    link: cardElement.activity.value
-  });
-  cardElement.block.classList.remove('popup_opened');
+  if (cardElement.form.checkValidity()) {
+    addCards({
+      name: cardElement.name.value,
+      link: cardElement.activity.value
+    });
+    cleanPopup(cardElement.block);
+  }
 });
 
 // Редактирование профиля по кнопке Сохранить
-profileElement.block.addEventListener('submit', saveProfile);
+profileElement.form.addEventListener('submit', saveProfile);
 
 addCards(...initialCards);

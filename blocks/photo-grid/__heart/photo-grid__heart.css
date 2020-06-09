@@ -10,3 +10,7 @@
   filter: opacity(.6);
   cursor: pointer;
 }
+
+.photo-grid__heart:focus {
+  outline: none;
+}

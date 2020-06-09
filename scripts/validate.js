@@ -1,17 +1,20 @@
 // Проверка инпутов
-function inputCheck(event, inputErrorClass, errorClass) {
-  const input = event.target;
+function inputCheck(input, inputErrorClass, errorClass) {
   const errorElement = document.querySelector(`#${input.id}-error`);
 
-  if (!input.checkValidity()) {
+  const fillError = function () {
     errorElement.textContent = input.validationMessage;
     input.classList.add(inputErrorClass);
     errorElement.classList.add(errorClass);
-  } else {
+  }
+
+  const cleanError = function () {
     errorElement.textContent = '';
     input.classList.remove(inputErrorClass);
     errorElement.classList.remove(errorClass);
   }
+
+  !input.checkValidity() ? fillError() : cleanError();
 }
 
 // Проверка формы в целом
@@ -31,7 +34,7 @@ function enableValidation(options) {
 
     form.addEventListener('input', () => formCheck(form, saveButton, options.inactiveButtonClass));
     formInputs.forEach(input => {
-      input.addEventListener('input', event => inputCheck(event, options.inputErrorClass, options.errorClass));
+      input.addEventListener('input', () => inputCheck(input, options.inputErrorClass, options.errorClass));
     });
   });
 }

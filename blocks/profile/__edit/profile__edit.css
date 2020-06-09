@@ -13,6 +13,10 @@
   filter: opacity(.6);
 }
 
+.profile__edit:focus {
+  outline: none;
+}
+
 @media all and (max-width: 425px) {
   .profile__edit {
     margin-left: 4px;
