@@ -1,20 +1,20 @@
+
+function fillError(input, errorElement, inputErrorClass, errorClass) {
+  errorElement.textContent = input.validationMessage;
+  input.classList.add(inputErrorClass);
+  errorElement.classList.add(errorClass);
+}
+
+function cleanError(input, errorElement, inputErrorClass, errorClass) {
+  errorElement.textContent = '';
+  input.classList.remove(inputErrorClass);
+  errorElement.classList.remove(errorClass);
+}
+
 // Проверка инпутов
 function inputCheck(input, inputErrorClass, errorClass) {
   const errorElement = document.querySelector(`#${input.id}-error`);
-
-  const fillError = function () {
-    errorElement.textContent = input.validationMessage;
-    input.classList.add(inputErrorClass);
-    errorElement.classList.add(errorClass);
-  }
-
-  const cleanError = function () {
-    errorElement.textContent = '';
-    input.classList.remove(inputErrorClass);
-    errorElement.classList.remove(errorClass);
-  }
-
-  !input.checkValidity() ? fillError() : cleanError();
+  !input.checkValidity() ? fillError(input, errorElement, inputErrorClass, errorClass) : cleanError(input, errorElement, inputErrorClass, errorClass);
 }
 
 // Проверка формы в целом
