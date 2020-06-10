@@ -28,7 +28,7 @@
         </div>
         <p class="profile__activity">Исследователь океана</p>
       </div>
-      <button class="profile__add"></button>
+      <button class="profile__photo-add"></button>
     </section>
 
     <section class="photo-grid">
@@ -42,7 +42,7 @@
 
   <div class="popup" id="profile">
     <form class="popup__container" name="profile" novalidate>
-      <button type="button" class="popup__close"></button>
+      <button type="button" class="page__close"></button>
       <h2 class="popup__title">Редактировать профиль</h2>
       <input id="profile-name" type="text" class="popup__input" minlength="2" maxlength="40" pattern="[А-Яа-я\w -]+" required>
       <span id="profile-name-error" class="popup__error"></span>
@@ -54,7 +54,7 @@
 
   <div class="popup" id="card">
     <form class="popup__container" name="card" novalidate>
-      <button type="button" class="popup__close"></button>
+      <button type="button" class="page__close"></button>
       <h2 class="popup__title">Новое место</h2>
       <input id="card-name" type="text" class="popup__input" placeholder="Название" minlength="2" maxlength="40" pattern="[А-Яа-я\w -]+" required>
       <span id="card-name-error" class="popup__error"></span>
@@ -64,12 +64,12 @@
     </form>
   </div>
 
-  <div class="photo-popup">
-    <div class="photo-popup__container">
-      <button class="photo-popup__close"></button>
-      <figure class="photo-popup__figure">
-        <img src="" alt="" class="photo-popup__image">
-        <figcaption class="photo-popup__caption"></figcaption>
+  <div class="popup" id="photo-popup">
+    <div class="popup__photo-container">
+      <button type="button" class="page__close"></button>
+      <figure class="popup__figure">
+        <img src="" alt="" class="popup__image">
+        <figcaption class="popup__caption"></figcaption>
       </figure>
     </div>
   </div>
