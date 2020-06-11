@@ -31,7 +31,7 @@ const photoPopup = {
 const popups = document.querySelectorAll('.popup');
 
 // Очистка popup
-function cleanPopup(popup) {
+function cleanInputErrors(popup) {
   const inputs = popup.querySelectorAll('.popup__input');
   inputs.forEach(input => {
     input.value = '';
@@ -40,18 +40,13 @@ function cleanPopup(popup) {
     errorElement.value = '';
     errorElement.classList.remove('popup__error_visible');
   });
-  document.removeEventListener('keydown', keyHandler);
 }
 
 // Переключатель видимости popup
 function togglePopup(block) {
   block.classList.toggle('page_opened');
-}
-
-// Открытие popup
-function openPopup(block) {
-  togglePopup(block);
-  document.addEventListener('keydown', keyHandler);
+  if (block.classList.contains('page_opened')) document.addEventListener('keydown', keyHandler);
+  else document.removeEventListener('keydown', keyHandler);
 }
 
 // Сохранение персоны
@@ -60,7 +55,7 @@ function saveProfile(evt) {
   personProfile.name.textContent = profileElement.name.value;
   personProfile.activity.textContent = profileElement.activity.value;
   togglePopup(profileElement.block);
-  cleanPopup(profileElement.block);
+  cleanInputErrors(profileElement.block);
 }
 
 // Сохранение карточки
@@ -71,7 +66,7 @@ function saveCard(evt) {
     link: cardElement.activity.value
   });
   togglePopup(cardElement.block);
-  cleanPopup(cardElement.block);
+  cleanInputErrors(cardElement.block);
 }
 
 // Удаление карточки по кнопке
@@ -85,7 +80,7 @@ function keyHandler(evt) {
     const opened = document.querySelector('.page_opened');
     if (opened) {
       togglePopup(opened);
-      cleanPopup(opened);
+      cleanInputErrors(opened);
     };
   }
 }
@@ -96,7 +91,6 @@ function showPhoto(evt) {
   photoPopup.image.setAttribute('alt', evt.target.getAttribute('alt'));
   photoPopup.caption.textContent = evt.target.getAttribute('alt');
   togglePopup(photoPopup.block);
-  document.addEventListener('keydown', keyHandler);
 }
 
 // Лайкаем карточку (или дизлайкаем)
@@ -110,9 +104,10 @@ function addCards(...cards) {
     const cardTemplate = document.querySelector('#photo').content;
     const card = cardTemplate.cloneNode(true);
     card.querySelector('.photo-grid__delete').addEventListener('click', deleteCard);
-    card.querySelector('.photo-grid__photo').setAttribute('src', object.link);
-    card.querySelector('.photo-grid__photo').setAttribute('alt', object.name);
-    card.querySelector('.photo-grid__photo').addEventListener('click', showPhoto);
+    const image = card.querySelector('.photo-grid__photo');
+    image.setAttribute('src', object.link);
+    image.setAttribute('alt', object.name);
+    image.addEventListener('click', showPhoto);
     card.querySelector('.photo-grid__title').textContent = object.name;
     card.querySelector('.photo-grid__heart').addEventListener('click', likeCard);
     photoGrid.prepend(card);
@@ -124,13 +119,13 @@ profileEdit.addEventListener('click', evt => {
   if (evt.target.classList.contains('profile__edit')) {
     profileElement.name.value = personProfile.name.textContent;
     profileElement.activity.value = personProfile.activity.textContent;
-    openPopup(profileElement.block);
+    togglePopup(profileElement.block);
   }
 });
 
 // Слушатель кнопки открытия добавления карточки
 photoAdd.addEventListener('click', evt => {
-  openPopup(cardElement.block);
+  togglePopup(cardElement.block);
 });
 
 // Submit карточки
@@ -140,10 +135,10 @@ profileElement.form.addEventListener('submit', saveProfile);
 
 // Вешаем listeners на popup
 popups.forEach(popup => {
-  popup.addEventListener('click', evt => {
+  popup.addEventListener('mousedown', evt => {
     if (evt.target.classList.contains('page__close') || evt.target.classList.contains('popup')) {
       togglePopup(evt.target.closest('.popup'));
-      cleanPopup(evt.target.closest('.popup'));
+      cleanInputErrors(evt.target.closest('.popup'));
     }
   });
 });
