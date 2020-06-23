@@ -1,3 +1,7 @@
+import Card from './Card.js';
+import FormValidator from './FormValidator.js';
+import initialCards from './cards.js';
+
 const profileEdit = document.querySelector('.profile__edit');
 const photoAdd = document.querySelector('.profile__photo-add');
 const photoGrid = document.querySelector('.photo-grid');
@@ -29,6 +33,24 @@ const photoPopup = {
 
 // Все popup
 const popups = document.querySelectorAll('.popup');
+
+const changeProfileValidate = new FormValidator({
+  formSelector: '.popup__container',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__save-button',
+  inactiveButtonClass: 'popup__save-button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+}, profileElement.form);
+
+const addCardValidate = new FormValidator({
+  formSelector: '.popup__container',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__save-button',
+  inactiveButtonClass: 'popup__save-button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+}, cardElement.form);
 
 // Очистка popup
 function cleanInputErrors(popup) {
@@ -69,13 +91,8 @@ function saveCard(evt) {
   cleanInputErrors(cardElement.block);
 }
 
-// Удаление карточки по кнопке
-function deleteCard(evt) {
-  evt.target.closest('.photo-grid__item').remove();
-}
-
 // Слушатель keydown для popup
-function keyHandler(evt) {
+export function keyHandler(evt) {
   if (evt.key === 'Escape') {
     const opened = document.querySelector('.page_opened');
     if (opened) {
@@ -85,32 +102,10 @@ function keyHandler(evt) {
   }
 }
 
-// Показываем фото по клике на картинку
-function showPhoto(evt) {
-  photoPopup.image.setAttribute('src', evt.target.getAttribute('src'));
-  photoPopup.image.setAttribute('alt', evt.target.getAttribute('alt'));
-  photoPopup.caption.textContent = evt.target.getAttribute('alt');
-  togglePopup(photoPopup.block);
-}
-
-// Лайкаем карточку (или дизлайкаем)
-function likeCard(evt) {
-  evt.target.classList.toggle('photo-grid__heart_liked');
-}
-
-// Добавление карточек из массива и навешивание обработчиков
 function addCards(...cards) {
   cards.forEach((object) => {
-    const cardTemplate = document.querySelector('#photo').content;
-    const card = cardTemplate.cloneNode(true);
-    card.querySelector('.photo-grid__delete').addEventListener('click', deleteCard);
-    const image = card.querySelector('.photo-grid__photo');
-    image.setAttribute('src', object.link);
-    image.setAttribute('alt', object.name);
-    image.addEventListener('click', showPhoto);
-    card.querySelector('.photo-grid__title').textContent = object.name;
-    card.querySelector('.photo-grid__heart').addEventListener('click', likeCard);
-    photoGrid.prepend(card);
+    const card = new Card(object, '#photo');
+    photoGrid.prepend(card.generateCard());
   });
 }
 
@@ -144,3 +139,5 @@ popups.forEach(popup => {
 });
 
 addCards(...initialCards);
+changeProfileValidate.enableValidation();
+addCardValidate.enableValidation();
