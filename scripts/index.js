@@ -27,7 +27,6 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
-export default initialCards;
 
 const profileEdit = document.querySelector('.profile__edit');
 const photoAdd = document.querySelector('.profile__photo-add');
@@ -119,7 +118,7 @@ function saveCard(evt) {
 }
 
 // Слушатель keydown для popup
-export function keyHandler(evt) {
+function keyHandler(evt) {
   if (evt.key === 'Escape') {
     const opened = document.querySelector('.page_opened');
     if (opened) {
