@@ -1,32 +1,6 @@
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
-
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
+import initialCards from './initialCards.js';
 
 const profileEdit = document.querySelector('.profile__edit');
 const photoAdd = document.querySelector('.profile__photo-add');
@@ -60,33 +34,30 @@ const photoPopup = {
 // Все popup
 const popups = document.querySelectorAll('.popup');
 
-const changeProfileValidate = new FormValidator({
+const validateConfig = {
   formSelector: '.popup__container',
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__save-button',
   inactiveButtonClass: 'popup__save-button_disabled',
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__error_visible'
-}, profileElement.form);
+}
 
-const addCardValidate = new FormValidator({
-  formSelector: '.popup__container',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__save-button',
-  inactiveButtonClass: 'popup__save-button_disabled',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error_visible'
-}, cardElement.form);
+const changeProfileValidate = new FormValidator(validateConfig, profileElement.form);
+const addCardValidate = new FormValidator(validateConfig, cardElement.form);
+
+// Деактивация Submit
+function disableSubmit(popup) {
+  const saveButton = popup.querySelector('.popup__save-button');
+  saveButton.classList.add('popup__save-button_disabled');
+  saveButton.disabled = true;
+}
 
 // Очистка popup
-function cleanInputErrors(popup) {
+function cleanInputs(popup) {
   const inputs = popup.querySelectorAll('.popup__input');
   inputs.forEach(input => {
     input.value = '';
-    input.classList.remove('popup__input_type_error');
-    const errorElement = popup.querySelector(`#${input.id}-error`);
-    errorElement.value = '';
-    errorElement.classList.remove('popup__error_visible');
   });
 }
 
@@ -103,7 +74,8 @@ function saveProfile(evt) {
   personProfile.name.textContent = profileElement.name.value;
   personProfile.activity.textContent = profileElement.activity.value;
   togglePopup(profileElement.block);
-  cleanInputErrors(profileElement.block);
+  cleanInputs(profileElement.block);
+  disableSubmit(profileElement.block);
 }
 
 // Сохранение карточки
@@ -114,34 +86,34 @@ function saveCard(evt) {
     link: cardElement.activity.value
   });
   togglePopup(cardElement.block);
-  cleanInputErrors(cardElement.block);
+  cleanInputs(cardElement.block);
+  disableSubmit(cardElement.block);
 }
 
 // Слушатель keydown для popup
-function keyHandler(evt) {
+export function keyHandler(evt) {
   if (evt.key === 'Escape') {
     const opened = document.querySelector('.page_opened');
     if (opened) {
       togglePopup(opened);
-      cleanInputErrors(opened);
+      cleanInputs(opened);
+      disableSubmit(opened);
     };
   }
 }
 
 function addCards(...cards) {
   cards.forEach((object) => {
-    const card = new Card(object, '#photo');
+    const card = new Card(object, '#photo', photoPopup.block);
     photoGrid.prepend(card.generateCard());
   });
 }
 
 // Слушатель кнопки открытия редактирования профиля
 profileEdit.addEventListener('click', evt => {
-  if (evt.target.classList.contains('profile__edit')) {
-    profileElement.name.value = personProfile.name.textContent;
-    profileElement.activity.value = personProfile.activity.textContent;
-    togglePopup(profileElement.block);
-  }
+  profileElement.name.value = personProfile.name.textContent;
+  profileElement.activity.value = personProfile.activity.textContent;
+  togglePopup(profileElement.block);
 });
 
 // Слушатель кнопки открытия добавления карточки
@@ -158,8 +130,10 @@ profileElement.form.addEventListener('submit', saveProfile);
 popups.forEach(popup => {
   popup.addEventListener('mousedown', evt => {
     if (evt.target.classList.contains('page__close') || evt.target.classList.contains('popup')) {
-      togglePopup(evt.target.closest('.popup'));
-      cleanInputErrors(evt.target.closest('.popup'));
+      const popup = evt.target.closest('.popup');
+      togglePopup(popup);
+      cleanInputs(popup);
+      disableSubmit(popup);
     }
   });
 });

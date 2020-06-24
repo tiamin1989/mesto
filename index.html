@@ -48,7 +48,7 @@
       <span id="profile-name-error" class="popup__error"></span>
       <input id="profile-activity" type="text" class="popup__input" minlength="2" maxlength="200" pattern="[А-Яа-я\w -]+" required>
       <span id="profile-activity-error" class="popup__error"></span>
-      <input type="submit" value="Сохранить" class="popup__save-button">
+      <input type="submit" value="Сохранить" class="popup__save-button popup__save-button_disabled" disabled>
     </form>
   </div>
 
@@ -84,9 +84,10 @@
       </div>
     </article>
   </template>
+  <script type="module" src="./scripts/index.js"></script>
   <script type="module" src="./scripts/Card.js"></script>
   <script type="module" src="./scripts/FormValidator.js"></script>
-  <script type="module" src="./scripts/index.js"></script>
+
 </body>
 
 </html>

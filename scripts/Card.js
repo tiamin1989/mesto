@@ -1,22 +1,20 @@
+import { keyHandler } from './index.js'
 
 export default class Card {
-  constructor(cardObj, templateSelector) {
+  constructor(cardObj, templateSelector, photoPopup) {
     this._template = document.querySelector(templateSelector),
-    this._popup = document.querySelector('#photo-popup'),
+    this._popup = photoPopup,
     this._link = cardObj.link,
     this._name = cardObj.name
   }
-  _escHandler(evt) {
-    if (evt.key === 'Escape' &&
-      this._popup.classList.contains('page_opened')) this._togglePhoto();
-  }
   _deleteCard() {
     this._card.remove();
+    delete this._card;
   }
   _togglePhoto() {
     this._popup.classList.toggle('page_opened');
-    if (this._popup.classList.contains('page_opened')) document.addEventListener('keydown', evt => this._escHandler(evt));
-    else document.removeEventListener('keydown', evt => this._escHandler(evt));
+    if (this._popup.classList.contains('page_opened')) document.addEventListener('keydown', keyHandler);
+    else document.removeEventListener('keydown', keyHandler);
   }
   _showPhoto() {
     this._popup.querySelector('.popup__image').setAttribute('src', this._link);
