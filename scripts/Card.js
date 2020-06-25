@@ -13,8 +13,7 @@ export default class Card {
   }
   _togglePhoto() {
     this._popup.classList.toggle('page_opened');
-    if (this._popup.classList.contains('page_opened')) document.addEventListener('keydown', keyHandler);
-    else document.removeEventListener('keydown', keyHandler);
+    document.addEventListener('keydown', keyHandler);
   }
   _showPhoto() {
     this._popup.querySelector('.popup__image').setAttribute('src', this._link);

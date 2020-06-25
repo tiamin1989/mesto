@@ -9,7 +9,7 @@ export default class FormValidator {
     input.classList.add(this._options.inputErrorClass);
     errorElement.classList.add(this._options.errorClass);
   }
-  _cleanError(input, errorElement) {
+  cleanError(input, errorElement) {
     errorElement.textContent = '';
     input.classList.remove(this._options.inputErrorClass);
     errorElement.classList.remove(this._options.errorClass);
@@ -18,7 +18,7 @@ export default class FormValidator {
     const errorElement = document.querySelector(`#${input.id}-error`);
 
     !input.checkValidity() ? this._fillError(input, errorElement) :
-    this._cleanError(input, errorElement);
+    this.cleanError(input, errorElement);
   }
   _formCheck() {
     const isValid = !this._form.checkValidity();
