@@ -137,12 +137,11 @@ class PhotoPopup extends Popup {
 }
 
 const profilePopup = new ProfilePopup('#profile');
-profilePopup.enablePopup();
-
 const cardPopup = new CardPopup('#card');
-cardPopup.enablePopup();
-
 const photoPopup = new PhotoPopup('#photo-popup');
+
+profilePopup.enablePopup();
+cardPopup.enablePopup();
 photoPopup.enablePopup();
 
 document.querySelector('.profile__edit').addEventListener('click', () => profilePopup.togglePopup());
