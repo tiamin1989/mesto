@@ -18,9 +18,9 @@ export default class FormValidator {
     const errorElement = document.querySelector(`#${input.id}-error`);
 
     !input.checkValidity() ? this._fillError(input, errorElement) :
-    this.cleanError(input, errorElement);
+      this.cleanError(input, errorElement);
   }
-  _formCheck() {
+  formCheck() {
     const isValid = !this._form.checkValidity();
 
     this._saveButton.disabled = isValid;
@@ -29,7 +29,7 @@ export default class FormValidator {
   enableValidation() {
     const formInputs = Array.from(this._form.querySelectorAll(this._options.inputSelector));
 
-    this._form.addEventListener('input', () => this._formCheck());
+    this._form.addEventListener('input', () => this.formCheck());
     formInputs.forEach(input => {
       input.addEventListener('input', () => this._inputCheck(input));
     });
