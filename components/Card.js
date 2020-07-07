@@ -1,26 +1,14 @@
-import { keyHandler } from './utils.js'
-
 export default class Card {
-  constructor(cardObj, templateSelector, photoPopup) {
+  constructor({ name, link }, templateSelector, photoPopup, handleCardClick) {
     this._template = document.querySelector(templateSelector),
       this._popup = photoPopup,
-      this._link = cardObj.link,
-      this._name = cardObj.name
+      this._name = name,
+      this._link = link,
+      this._handleCardClick = handleCardClick;
   }
   _deleteCard() {
     this._card.remove();
     delete this._card;
-  }
-  _togglePhoto() {
-    this._popup.classList.toggle('page_opened');
-    if (this._popup.classList.contains('page_opened')) document.addEventListener('keydown', keyHandler);
-    else document.removeEventListener('keydown', keyHandler);
-  }
-  _showPhoto() {
-    this._popup.querySelector('.popup__image').setAttribute('src', this._link);
-    this._popup.querySelector('.popup__image').setAttribute('alt', this._name);
-    this._popup.querySelector('.popup__caption').textContent = this._name;
-    this._togglePhoto();
   }
   _likeCard() {
     this._card.querySelector('.photo-grid__heart').classList.toggle('photo-grid__heart_liked');
@@ -28,7 +16,7 @@ export default class Card {
   _setEventListeners() {
     this._card.querySelector('.photo-grid__delete').addEventListener('click', () => this._deleteCard());
     this._card.querySelector('.photo-grid__heart').addEventListener('click', () => this._likeCard());
-    this._card.querySelector('.photo-grid__photo').addEventListener('click', () => this._showPhoto());
+    this._card.querySelector('.photo-grid__photo').addEventListener('click', this._handleCardClick);
   }
   _getTemplate() {
     const cardTemplate = this._template
