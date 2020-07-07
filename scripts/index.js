@@ -1,4 +1,5 @@
 import Card from './Card.js';
+import Section from './Section.js';
 import { changeProfileValidate, addCardValidate } from './utils.js';
 import initialCards from './initialCards.js';
 import { togglePopup } from './utils.js';
@@ -44,10 +45,17 @@ function saveProfile(evt) {
 // Сохранение карточки
 function saveCard(evt) {
   evt.preventDefault();
-  addCards({
-    name: cardElement.name.value,
-    link: cardElement.activity.value
-  });
+  const cardItem = new Section({
+    items: [{
+      name: cardElement.name.value,
+      link: cardElement.activity.value
+    }],
+    renderer: function (item) {
+      const card = new Card(item, '#photo', photoPopup.block);
+      this.addItem(card.generateCard());
+    }
+  }, '.photo-grid');
+  cardItem.renderItems();
   togglePopup(cardElement.block, addCardValidate);
   addCardValidate.formCheck();
 }
@@ -92,6 +100,15 @@ photoPopup.block.addEventListener('mousedown', evt => {
     togglePopup(photoPopup.block);
 });
 
-addCards(...initialCards);
+// Отрисовка начальных карточек
+const carditems = new Section({
+  items: initialCards,
+  renderer: function (item) {
+    const card = new Card(item, '#photo', photoPopup.block);
+    this.addItem(card.generateCard());
+  }
+}, '.photo-grid');
+carditems.renderItems();
+
 changeProfileValidate.enableValidation();
 addCardValidate.enableValidation();
