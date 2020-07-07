@@ -14,14 +14,10 @@ export default class Popup {
   setEventListeners() {
     this._popup.querySelector('.page__close')
       .addEventListener('click', evt => {
-        if (evt.target.classList.contains('page__close')) {
-          this.close();
-        }
+        if (evt.target.classList.contains('page__close')) this.close();
       });
     this._popup.addEventListener('mousedown', evt => {
-      if (evt.target.classList.contains('popup')) {
-        this.close();
-      }
+      if (evt.target.classList.contains('popup')) this.close();
     });
   }
   _handleEscClose(evt) {
