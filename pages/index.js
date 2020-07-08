@@ -1,10 +1,10 @@
 import Card from '../components/Card.js';
 import Section from '../components/Section.js';
 import FormValidator from '../components/FormValidator.js';
-import { initialCards, profileEdit, photoAdd, validateConfig, profileElement, photoPopup } from '../utils/constants.js';
 import UserInfo from '../components/UserInfo.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import PopupWithImage from '../components/PopupWithImage.js';
+import { initialCards, profileEdit, photoAdd, validateConfig, profileElement, photoPopup } from '../utils/constants.js';
 
 const changeProfileValidate = new FormValidator(validateConfig, document.forms.profile);
 const addCardValidate = new FormValidator(validateConfig, document.forms.card);
