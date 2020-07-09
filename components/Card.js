@@ -1,5 +1,5 @@
 export default class Card {
-  constructor({ name, link }, templateSelector, photoPopup, handleCardClick) {
+  constructor({ name, link }, templateSelector, handleCardClick) {
     this._template = document.querySelector(templateSelector),
       this._name = name,
       this._link = link,

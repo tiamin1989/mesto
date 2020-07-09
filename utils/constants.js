@@ -41,7 +41,3 @@ export const profileElement = {
   name: document.querySelector('#profile #profile-name'),
   activity: document.querySelector('#profile #profile-activity')
 }
-
-export const photoPopup = {
-  block: document.querySelector('#photo-popup')
-}

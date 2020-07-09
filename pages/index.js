@@ -4,7 +4,7 @@ import FormValidator from '../components/FormValidator.js';
 import UserInfo from '../components/UserInfo.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import PopupWithImage from '../components/PopupWithImage.js';
-import { initialCards, profileEdit, photoAdd, validateConfig, profileElement, photoPopup } from '../utils/constants.js';
+import { initialCards, profileEdit, photoAdd, validateConfig, profileElement } from '../utils/constants.js';
 
 const changeProfileValidate = new FormValidator(validateConfig, document.forms.profile);
 const addCardValidate = new FormValidator(validateConfig, document.forms.card);
@@ -32,7 +32,7 @@ const cardPopup = new PopupWithForm('#card',
         link: second
       }],
       renderer: function (item) {
-        const card = new Card(item, '#photo', photoPopup.block, () => { imagePopup.open(item.link, item.name) });
+        const card = new Card(item, '#photo', () => { imagePopup.open(item.link, item.name) });
         this.addItem(card.generateCard());
       }
     }, '.photo-grid');
@@ -45,7 +45,7 @@ const cardPopup = new PopupWithForm('#card',
 const cardItems = new Section({
   items: initialCards,
   renderer: function (item) {
-    const card = new Card(item, '#photo', photoPopup.block, () => { imagePopup.open(item.link, item.name) });
+    const card = new Card(item, '#photo', () => { imagePopup.open(item.link, item.name) });
     this.addItem(card.generateCard());
   }
 }, '.photo-grid');
