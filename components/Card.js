@@ -1,7 +1,6 @@
 export default class Card {
   constructor({ name, link }, templateSelector, photoPopup, handleCardClick) {
     this._template = document.querySelector(templateSelector),
-      this._popup = photoPopup,
       this._name = name,
       this._link = link,
       this._handleCardClick = handleCardClick;
@@ -19,11 +18,10 @@ export default class Card {
     this._card.querySelector('.photo-grid__photo').addEventListener('click', this._handleCardClick);
   }
   _getTemplate() {
-    const cardTemplate = this._template
+    return this._template
       .content
       .querySelector('.photo-grid__item')
       .cloneNode(true);
-    return cardTemplate;
   }
   generateCard() {
     this._card = this._getTemplate();

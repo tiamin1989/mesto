@@ -16,7 +16,7 @@ const profilePopup = new PopupWithForm('#profile',
   // функция для submit
   evt => {
     evt.preventDefault();
-    userInfo.setUserInfo(profilePopup._getInputValues())
+    userInfo.setUserInfo(profilePopup._getInputValues());
     profilePopup.close();
   },
   changeProfileValidate);
@@ -26,7 +26,7 @@ const cardPopup = new PopupWithForm('#card',
   evt => {
     evt.preventDefault();
     const { first, second } = cardPopup._getInputValues();
-    const carditem = new Section({
+    const cardItem = new Section({
       items: [{
         name: first,
         link: second
@@ -36,13 +36,13 @@ const cardPopup = new PopupWithForm('#card',
         this.addItem(card.generateCard());
       }
     }, '.photo-grid');
-    carditem.renderItems();
+    cardItem.renderItems();
     cardPopup.close();
   },
   addCardValidate);
 
 // Отрисовка начальных карточек
-const carditems = new Section({
+const cardItems = new Section({
   items: initialCards,
   renderer: function (item) {
     const card = new Card(item, '#photo', photoPopup.block, () => { imagePopup.open(item.link, item.name) });
@@ -67,4 +67,4 @@ addCardValidate.enableValidation();
 imagePopup.setEventListeners();
 profilePopup.setEventListeners();
 cardPopup.setEventListeners();
-carditems.renderItems();
+cardItems.renderItems();

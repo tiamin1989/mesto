@@ -21,10 +21,10 @@ export default class FormValidator {
       this.cleanError(input, errorElement);
   }
   formCheck() {
-    const isValid = !this._form.checkValidity();
+    const isInvalid = !this._form.checkValidity();
 
-    this._saveButton.disabled = isValid;
-    this._saveButton.classList.toggle(this._options.inactiveButtonClass, isValid);
+    this._saveButton.disabled = isInvalid;
+    this._saveButton.classList.toggle(this._options.inactiveButtonClass, isInvalid);
   }
   enableValidation() {
     const formInputs = Array.from(this._form.querySelectorAll(this._options.inputSelector));
