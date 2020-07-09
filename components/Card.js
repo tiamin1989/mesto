@@ -4,8 +4,13 @@ export default class Card {
       this._name = name,
       this._link = link,
       this._handleCardClick = handleCardClick;
+      this._deleteCardListener = this._deleteCard.bind(this);
+      this._likeCardListener = this._likeCard.bind(this);
   }
   _deleteCard() {
+    this._card.querySelector('.photo-grid__delete').removeEventListener('click', this._deleteCardListener);
+    this._card.querySelector('.photo-grid__heart').removeEventListener('click', this._likeCardListener);
+    this._card.querySelector('.photo-grid__photo').removeEventListener('click', this._handleCardClick);
     this._card.remove();
     delete this._card;
   }
@@ -13,8 +18,8 @@ export default class Card {
     this._card.querySelector('.photo-grid__heart').classList.toggle('photo-grid__heart_liked');
   }
   _setEventListeners() {
-    this._card.querySelector('.photo-grid__delete').addEventListener('click', () => this._deleteCard());
-    this._card.querySelector('.photo-grid__heart').addEventListener('click', () => this._likeCard());
+    this._card.querySelector('.photo-grid__delete').addEventListener('click', this._deleteCardListener);
+    this._card.querySelector('.photo-grid__heart').addEventListener('click', this._likeCardListener);
     this._card.querySelector('.photo-grid__photo').addEventListener('click', this._handleCardClick);
   }
   _getTemplate() {
