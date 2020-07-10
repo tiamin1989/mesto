@@ -42,9 +42,9 @@ export const validateConfig = {
   inactiveButtonClass: 'popup__save-button_disabled',
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__error_visible'
-}
+};
 
 export const profileElement = {
   name: document.querySelector('#profile #profile-name'),
   activity: document.querySelector('#profile #profile-activity')
-}
+};

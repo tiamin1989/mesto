@@ -21,7 +21,7 @@ export default class PopupWithForm extends Popup {
     return {
       first: firstInput.value,
       second: secondInput.value
-    }
+    };
   }
   setEventListeners() {
     this._popup.addEventListener('submit', this._submit);

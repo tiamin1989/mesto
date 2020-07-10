@@ -1,5 +1,4 @@
 /* rimraf global installed */
-import '../vendor/normalize.css';
 import './index.css';
 
 import Card from '../components/Card.js';
@@ -36,7 +35,7 @@ const cardPopup = new PopupWithForm('#card',
         link: second
       }],
       renderer: function (item) {
-        const card = new Card(item, '#photo', () => { imagePopup.open(item.link, item.name) });
+        const card = new Card(item, '#photo', () => { imagePopup.open(item.link, item.name); });
         this.addItem(card.generateCard());
       }
     }, '.photo-grid');
@@ -49,7 +48,7 @@ const cardPopup = new PopupWithForm('#card',
 const cardItems = new Section({
   items: initialCards,
   renderer: function (item) {
-    const card = new Card(item, '#photo', () => { imagePopup.open(item.link, item.name) });
+    const card = new Card(item, '#photo', () => { imagePopup.open(item.link, item.name); });
     this.addItem(card.generateCard());
   }
 }, '.photo-grid');

@@ -7,7 +7,7 @@ export default class UserInfo {
     return {
       name: this._name.textContent,
       link: this._activity.textContent
-    }
+    };
   }
   setUserInfo({ first, second }) {
     this._name.textContent = first;
