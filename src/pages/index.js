@@ -1,4 +1,3 @@
-/* rimraf global installed */
 import './index.css';
 
 import Card from '../components/Card.js';
@@ -24,40 +23,31 @@ const profilePopup = new PopupWithForm('#profile',
   },
   changeProfileValidate);
 
-const cardPopup = new PopupWithForm('#card',
-  // функция для submit
-  evt => {
-    evt.preventDefault();
-    const { first, second } = cardPopup._getInputValues();
-    const cardItem = new Section({
-      items: [{
-        name: first,
-        link: second
-      }],
-      renderer: function (item) {
-        const card = new Card(item, '#photo', () => { imagePopup.open(item.link, item.name); });
-        this.addItem(card.generateCard());
-      }
-    }, '.photo-grid');
-    cardItem.renderItems();
-    cardPopup.close();
-  },
-  addCardValidate);
-
-// Отрисовка начальных карточек
-const cardItems = new Section({
+// Отрисовка карточек
+const cardList = new Section({
   items: initialCards,
   renderer: function (item) {
-    const card = new Card(item, '#photo', () => { imagePopup.open(item.link, item.name); });
+    const card = new Card(item, '#photo', () => { imagePopup.open(item.second, item.first); });
     this.addItem(card.generateCard());
   }
 }, '.photo-grid');
 
+const cardPopup = new PopupWithForm('#card',
+  // функция для submit
+  evt => {
+    evt.preventDefault();
+    const cardInfo = cardPopup._getInputValues();
+    const card = new Card(cardInfo, '#photo', () => { imagePopup.open(cardInfo.second, cardInfo.first); });
+    cardList.addItem(card.generateCard());
+    cardPopup.close();
+  },
+  addCardValidate);
+
 // Слушатель кнопки открытия редактирования профиля
 profileEdit.addEventListener('click', () => {
-  const { name, link } = userInfo.getUserInfo();
-  profileElement.name.value = name;
-  profileElement.activity.value = link;
+  const { first, second } = userInfo.getUserInfo();
+  profileElement.name.value = first;
+  profileElement.activity.value = second;
   profilePopup.open();
 });
 
@@ -70,4 +60,4 @@ addCardValidate.enableValidation();
 imagePopup.setEventListeners();
 profilePopup.setEventListeners();
 cardPopup.setEventListeners();
-cardItems.renderItems();
+cardList.renderItems();

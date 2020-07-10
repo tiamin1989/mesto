@@ -1,11 +1,11 @@
 export default class Card {
-  constructor({ name, link }, templateSelector, handleCardClick) {
-    this._template = document.querySelector(templateSelector),
-      this._name = name,
-      this._link = link,
-      this._handleCardClick = handleCardClick;
-      this._deleteCardListener = this._deleteCard.bind(this);
-      this._likeCardListener = this._likeCard.bind(this);
+  constructor({ first, second }, templateSelector, handleCardClick) {
+    this._template = document.querySelector(templateSelector);
+    this._first = first;
+    this._second = second;
+    this._handleCardClick = handleCardClick;
+    this._deleteCardListener = this._deleteCard.bind(this);
+    this._likeCardListener = this._likeCard.bind(this);
   }
   _deleteCard() {
     this._card.querySelector('.photo-grid__delete').removeEventListener('click', this._deleteCardListener);
@@ -31,9 +31,9 @@ export default class Card {
   generateCard() {
     this._card = this._getTemplate();
     const image = this._card.querySelector('.photo-grid__photo');
-    image.setAttribute('src', this._link);
-    image.setAttribute('alt', this._name);
-    this._card.querySelector('.photo-grid__title').textContent = this._name;
+    image.setAttribute('src', this._second);
+    image.setAttribute('alt', this._first);
+    this._card.querySelector('.photo-grid__title').textContent = this._first;
     this._setEventListeners();
     return this._card;
   }

@@ -7,28 +7,28 @@ import baikalImage from '../images/baikal.jpg';
 
 export const initialCards = [
   {
-    name: 'Архыз',
-    link: arhyzImage
+    first: 'Архыз',
+    second: arhyzImage
   },
   {
-    name: 'Челябинская область',
-    link: chelyabImage
+    first: 'Челябинская область',
+    second: chelyabImage
   },
   {
-    name: 'Иваново',
-    link: ivanovoImage
+    first: 'Иваново',
+    second: ivanovoImage
   },
   {
-    name: 'Камчатка',
-    link: kamchatkaImage
+    first: 'Камчатка',
+    second: kamchatkaImage
   },
   {
-    name: 'Холмогорский район',
-    link: holmImage
+    first: 'Холмогорский район',
+    second: holmImage
   },
   {
-    name: 'Байкал',
-    link: baikalImage
+    first: 'Байкал',
+    second: baikalImage
   }
 ];
 
