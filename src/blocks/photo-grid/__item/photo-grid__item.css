@@ -1,6 +1,7 @@
 .photo-grid__item {
   position: relative;
   max-width: 282px;
-  max-height: 361px;
+  /* max-height: 361px; */
+  height: 361px;
   width: 100%;
 }
