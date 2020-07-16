@@ -133,4 +133,23 @@ export default class Api {
         });
     }
   }
+  changeAvatar(url) {
+    return fetch(`${this.baseUrl}/users/me/avatar`, {
+      method: 'PATCH',
+      headers: {
+        authorization: this.token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        avatar: url
+      })
+    })
+      .then(res => {
+        if (!res.ok) return Promise.reject(`Ошибка: ${res.status}`);
+        return res.json();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 }

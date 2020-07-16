@@ -86,6 +86,16 @@
     </form>
   </div>
 
+  <div class="popup" id="avatar">
+    <form class="popup__container" name="avatar" novalidate>
+      <button type="button" class="page__close"></button>
+      <h2 class="popup__title">Обновить аватар</h2>
+      <input id="card-link" type="url" class="popup__input" placeholder="Ссылка на картинку" required>
+      <span id="card-link-error" class="popup__error"></span>
+      <input type="submit" value="Сохранить" class="popup__save-button popup__save-button_disabled" disabled>
+    </form>
+  </div>
+
   <template id="photo">
     <article class="photo-grid__item">
       <button class="photo-grid__delete"></button>

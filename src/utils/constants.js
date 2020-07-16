@@ -48,3 +48,5 @@ export const profileElement = {
   name: document.querySelector('#profile #profile-name'),
   activity: document.querySelector('#profile #profile-activity')
 };
+
+export const changeAvatar = document.querySelector('.profile__pen');

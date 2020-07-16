@@ -8,10 +8,12 @@ import UserInfo from '../components/UserInfo.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithConfirm from '../components/PopupWithConfirm.js';
-import { /* initialCards,  */profileEdit, photoAdd, validateConfig, profileElement } from '../utils/constants.js';
+import PopupWithAvatarForm from '../components/PopupWithAvatarForm.js';
+import { /* initialCards,  */profileEdit, photoAdd, validateConfig, profileElement, changeAvatar } from '../utils/constants.js';
 
 const changeProfileValidate = new FormValidator(validateConfig, document.forms.profile);
 const addCardValidate = new FormValidator(validateConfig, document.forms.card);
+const avatarValidate = new FormValidator(validateConfig, document.forms.avatar);
 
 const userInfo = new UserInfo('.profile__name', '.profile__activity');
 const imagePopup = new PopupWithImage('#photo-popup');
@@ -34,9 +36,11 @@ const profilePopup = new PopupWithForm('#profile',
   evt => {
     evt.preventDefault();
     const inputValues = profilePopup._getInputValues();
+    profilePopup._popup.querySelector('.popup__save-button').value = 'Сохранение...';
     api.savePersonData(inputValues);
     userInfo.setUserInfo(inputValues);
     profilePopup.close();
+    profilePopup._popup.querySelector('.popup__save-button').value = 'Сохранить';
   },
   changeProfileValidate);
 
@@ -48,12 +52,26 @@ profileEdit.addEventListener('click', () => {
   profilePopup.open();
 });
 
+const avatarPopup = new PopupWithAvatarForm('#avatar',
+  evt => {
+    evt.preventDefault();
+    avatarPopup._popup.querySelector('.popup__save-button').value = 'Сохранение...';
+    api.changeAvatar(avatarPopup.getInputValue())
+      .then(res => document.querySelector('.profile__photo').src = res.avatar);
+    avatarPopup.close();
+    avatarPopup._popup.querySelector('.popup__save-button').value = 'Сохранить';
+  },
+  avatarValidate
+);
+
 changeProfileValidate.enableValidation();
 addCardValidate.enableValidation();
+avatarValidate.enableValidation();
 
 imagePopup.setEventListeners();
 profilePopup.setEventListeners();
 confirmPopup.setEventListeners();
+avatarPopup.setEventListeners();
 
 const cardPopup = new PopupWithForm('#card',
   // функция для submit
@@ -62,6 +80,7 @@ const cardPopup = new PopupWithForm('#card',
     const cardInfo = cardPopup._getInputValues();
     delete Object.assign(cardInfo, { ["name"]: cardInfo["first"] })["first"];
     delete Object.assign(cardInfo, { ["link"]: cardInfo["second"] })["second"];
+    cardPopup._popup.querySelector('.popup__save-button').value = 'Сохранение...';
     api.saveCardData(cardInfo)
       .then(res => {
         const card = new Card(res,
@@ -75,12 +94,15 @@ const cardPopup = new PopupWithForm('#card',
         cardList.addItem(card.generateCard());
       });
     cardPopup.close();
+    cardPopup._popup.querySelector('.popup__save-button').value = 'Создать';
   },
   addCardValidate);
 
 cardPopup.setEventListeners();
 // Слушатель кнопки открытия добавления карточки
 photoAdd.addEventListener('click', () => cardPopup.open());
+
+changeAvatar.addEventListener('click', () => avatarPopup.open());
 
 // Загружаем имя и деятельность персоны
 api.getPersonData(function (name, activity) {
@@ -89,7 +111,8 @@ api.getPersonData(function (name, activity) {
     second: activity
   });
 })
-  .then((currentUser) => {
+  .then(currentUser => {
+    document.querySelector('.profile__photo').src = currentUser.avatar;
     // Отрисовка карточек
     api.getInitialCards()
       .then(initialCards => {
