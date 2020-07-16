@@ -2,6 +2,8 @@
 @import url('./__photo/photo-grid__photo.css');
 @import url('./__item-info/photo-grid__item-info.css');
 @import url('./__title/photo-grid__title.css');
+@import url('./__likes-wrapper/photo-grid__likes-wrapper.css');
+@import url('./__like-count/photo-grid__like-count.css');
 @import url('./__heart/photo-grid__heart.css');
 @import url('./__delete/photo-grid__delete.css');
 

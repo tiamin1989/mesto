@@ -1,0 +1,18 @@
+.profile__pen {
+  height: 120px;
+  width: 120px;
+  border-radius: 50%;
+  position: absolute;
+  z-index: 1;
+  background: url('../../../images/editAvatar.png') no-repeat 50% 50%;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  cursor: pointer;
+
+}
+
+.profile__pen:hover {
+  opacity: 1;
+  backdrop-filter: brightness(.2);
+}

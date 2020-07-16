@@ -5,6 +5,8 @@
 @import url('./__activity/profile__activity.css');
 @import url('./__edit/profile__edit.css');
 @import url('./__photo-add/profile__photo-add.css');
+@import url('./__images-wrapper/profile__images-wrapper.css');
+@import url('./__pen/profile__pen.css');
 
 .profile {
   padding: 3.3% 13.3% 0;
