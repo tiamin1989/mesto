@@ -16,7 +16,7 @@ export default class PopupWithForm extends Popup {
       });
     this._validator.formCheck();
   }
-  getInputValues() {
+  _getInputValues() {
     const values = {};
     this._popup.querySelectorAll('.popup__input')
       .forEach(input => {
@@ -25,7 +25,7 @@ export default class PopupWithForm extends Popup {
     return values;
   }
   setEventListeners() {
-    this._popup.addEventListener('submit', this._submit);
+    this._popup.addEventListener('submit', evt => this._submit(evt, this._getInputValues()));
     super.setEventListeners();
   }
 }

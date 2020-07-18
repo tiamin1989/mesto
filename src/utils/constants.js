@@ -1,37 +1,3 @@
-import arhyzImage from '../images/arkhyz.jpg';
-import chelyabImage from '../images/chelyabinsk-oblast.jpg';
-import ivanovoImage from '../images/ivanovo.jpg';
-import kamchatkaImage from '../images/kamchatka.jpg';
-import holmImage from '../images/kholmogorsky-rayon.jpg';
-import baikalImage from '../images/baikal.jpg';
-
-export const initialCards = [
-  {
-    first: 'Архыз',
-    second: arhyzImage
-  },
-  {
-    first: 'Челябинская область',
-    second: chelyabImage
-  },
-  {
-    first: 'Иваново',
-    second: ivanovoImage
-  },
-  {
-    first: 'Камчатка',
-    second: kamchatkaImage
-  },
-  {
-    first: 'Холмогорский район',
-    second: holmImage
-  },
-  {
-    first: 'Байкал',
-    second: baikalImage
-  }
-];
-
 export const profileEdit = document.querySelector('.profile__edit');
 export const photoAdd = document.querySelector('.profile__photo-add');
 
