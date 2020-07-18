@@ -10,13 +10,8 @@ export default class Api {
       }
     })
       .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
+        if (res.ok) return res.json();
         return Promise.reject(`Ошибка: ${res.status}`);
-      })
-      .then(res => {
-        return res;
       })
       .catch((err) => {
         console.log(err);
@@ -35,14 +30,14 @@ export default class Api {
         return Promise.reject(`Ошибка: ${res.status}`);
       })
       .then(res => {
-        func(res.name, res.about);
+        func(res.name, res.about, res.avatar);
         return res;
       })
       .catch((err) => {
-        func(err, err);
+        console.log(err);
       });
   }
-  savePersonData({ first, second }) {
+  savePersonData({ name, about }) {
     return fetch(`${this.baseUrl}/users/me`, {
       method: 'PATCH',
       headers: {
@@ -50,8 +45,8 @@ export default class Api {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        name: first,
-        about: second
+        name: name,
+        about: about
       })
     })
       .then(res => {
@@ -90,37 +85,20 @@ export default class Api {
       }
     })
   }
-  likeCard(id, card) {
-    const myLike = card._likes.some(function (likesItem) {
-      return likesItem._id === id;
+  likeCard(user, card) {
+    const myLike = card._likes.find((currentUser, index, array) => {
+      if (currentUser._id === user._id) array.splice(index, 1);
+      return currentUser._id === user._id;
     });
-    if (myLike) {
-      return fetch(`${this.baseUrl}/cards/likes/${card._id}`, {
-        method: 'DELETE',
-        headers: {
-          authorization: this.token,
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(res => {
-          if (!res.ok) return Promise.reject(`Ошибка: ${res.status}`);
-          res.json()
-            .then(res => {
-              card._card.querySelector('.photo-grid__like-count').textContent = res.likes.length;
-              card.likeCard();
-            });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      return fetch(`${this.baseUrl}/cards/likes/${card._id}`, {
-        method: 'PUT',
-        headers: {
-          authorization: this.token,
-          'Content-Type': 'application/json'
-        }
-      }).then(res => {
+    if (!myLike) card._likes.push(user);
+    return fetch(`${this.baseUrl}/cards/likes/${card._id}`, {
+      method: myLike ? 'DELETE' : 'PUT',
+      headers: {
+        authorization: this.token,
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(res => {
         if (!res.ok) return Promise.reject(`Ошибка: ${res.status}`);
         res.json()
           .then(res => {
@@ -128,12 +106,11 @@ export default class Api {
             card.likeCard();
           });
       })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
+      .catch((err) => {
+        console.log(err);
+      });
   }
-  changeAvatar(url) {
+  changeAvatar({ url }) {
     return fetch(`${this.baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       headers: {

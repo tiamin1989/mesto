@@ -8,14 +8,13 @@ import UserInfo from '../components/UserInfo.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithConfirm from '../components/PopupWithConfirm.js';
-import PopupWithAvatarForm from '../components/PopupWithAvatarForm.js';
 import { /* initialCards,  */profileEdit, photoAdd, validateConfig, profileElement, changeAvatar } from '../utils/constants.js';
 
 const changeProfileValidate = new FormValidator(validateConfig, document.forms.profile);
 const addCardValidate = new FormValidator(validateConfig, document.forms.card);
 const avatarValidate = new FormValidator(validateConfig, document.forms.avatar);
 
-const userInfo = new UserInfo('.profile__name', '.profile__activity');
+const userInfo = new UserInfo('.profile__name', '.profile__activity', '.profile__photo');
 const imagePopup = new PopupWithImage('#photo-popup');
 
 // Нужно для единого экземпляра Section в разных местах
@@ -29,34 +28,44 @@ export const api = new Api({
   }
 });
 
-const confirmPopup = new PopupWithConfirm('#confirm');
+const confirmPopup = new PopupWithConfirm('#confirm', (evt, instance) => {
+  evt.preventDefault();
+  api.deleteCardData(instance._id)
+    .then(() => {
+      instance.deleteCard();
+      confirmPopup.close();
+    })
+});
 
 const profilePopup = new PopupWithForm('#profile',
   // функция для submit
   evt => {
     evt.preventDefault();
-    const inputValues = profilePopup._getInputValues();
+    const inputValues = profilePopup.getInputValues();
     profilePopup._popup.querySelector('.popup__save-button').value = 'Сохранение...';
-    api.savePersonData(inputValues);
-    userInfo.setUserInfo(inputValues);
-    profilePopup.close();
-    profilePopup._popup.querySelector('.popup__save-button').value = 'Сохранить';
+    api.savePersonData(inputValues)
+      .then(() => {
+        userInfo.setUserInfo(inputValues);
+        profilePopup.close();
+        profilePopup._popup.querySelector('.popup__save-button').value = 'Сохранить';
+      })
+
   },
   changeProfileValidate);
 
 // Слушатель кнопки открытия редактирования профиля
 profileEdit.addEventListener('click', () => {
-  const { first, second } = userInfo.getUserInfo();
-  profileElement.name.value = first;
-  profileElement.activity.value = second;
+  const { name, about } = userInfo.getUserInfo();
+  profileElement.name.value = name;
+  profileElement.activity.value = about;
   profilePopup.open();
 });
 
-const avatarPopup = new PopupWithAvatarForm('#avatar',
+const avatarPopup = new PopupWithForm('#avatar',
   evt => {
     evt.preventDefault();
     avatarPopup._popup.querySelector('.popup__save-button').value = 'Сохранение...';
-    api.changeAvatar(avatarPopup.getInputValue())
+    api.changeAvatar(avatarPopup.getInputValues())
       .then(res => document.querySelector('.profile__photo').src = res.avatar);
     avatarPopup.close();
     avatarPopup._popup.querySelector('.popup__save-button').value = 'Сохранить';
@@ -77,9 +86,7 @@ const cardPopup = new PopupWithForm('#card',
   // функция для submit
   evt => {
     evt.preventDefault();
-    const cardInfo = cardPopup._getInputValues();
-    delete Object.assign(cardInfo, { ["name"]: cardInfo["first"] })["first"];
-    delete Object.assign(cardInfo, { ["link"]: cardInfo["second"] })["second"];
+    const cardInfo = cardPopup.getInputValues();
     cardPopup._popup.querySelector('.popup__save-button').value = 'Сохранение...';
     api.saveCardData(cardInfo)
       .then(res => {
@@ -87,8 +94,8 @@ const cardPopup = new PopupWithForm('#card',
           '#photo',
           () => { imagePopup.open(res.link, res.name); },
           true,
-          () => confirmPopup.confirmDel(card),
-          () => api.likeCard(res.owner._id, card),
+          () => confirmPopup.confirm(card),
+          () => api.likeCard(res.owner, card),
           res.owner._id
         );
         cardList.addItem(card.generateCard());
@@ -105,10 +112,11 @@ photoAdd.addEventListener('click', () => cardPopup.open());
 changeAvatar.addEventListener('click', () => avatarPopup.open());
 
 // Загружаем имя и деятельность персоны
-api.getPersonData(function (name, activity) {
+api.getPersonData(function (name, about, avatar) {
   userInfo.setUserInfo({
-    first: name,
-    second: activity
+    name: name,
+    about: about,
+    avatar: avatar
   });
 })
   .then(currentUser => {
@@ -117,16 +125,16 @@ api.getPersonData(function (name, activity) {
     api.getInitialCards()
       .then(initialCards => {
         initialCards.reverse();
-        cardList = new Section({
+        cardList = new Section({/* нам нужен свой id (currentUser._id), который дает только сервер, поэтому в глобал scope не перенести( */
           items: initialCards,
           renderer: function (item) {
             const card = new Card(
               item,
               '#photo',
               () => { imagePopup.open(item.link, item.name); },
-              currentUser._id === item.owner._id ? true : false,
-              () => confirmPopup.confirmDel(card),
-              () => api.likeCard(currentUser._id, card),
+              currentUser._id === item.owner._id,
+              () => confirmPopup.confirm(card),
+              () => api.likeCard(currentUser, card),
               currentUser._id
             );
             this.addItem(card.generateCard());
@@ -135,7 +143,3 @@ api.getPersonData(function (name, activity) {
         cardList.renderItems();
       });
   });
-
-
-
-

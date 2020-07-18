@@ -16,12 +16,13 @@ export default class PopupWithForm extends Popup {
       });
     this._validator.formCheck();
   }
-  _getInputValues() {
-    const [firstInput, secondInput] = this._popup.querySelectorAll('.popup__input');
-    return {
-      first: firstInput.value,
-      second: secondInput.value
-    };
+  getInputValues() {
+    const values = {};
+    this._popup.querySelectorAll('.popup__input')
+      .forEach(input => {
+        values[input.name] = input.value;
+      });
+    return values;
   }
   setEventListeners() {
     this._popup.addEventListener('submit', this._submit);
